@@ -23,7 +23,7 @@ export default function SearchUrl() {
         console.log("submitted");
     };
     return (
-        <div style={{ top: `${Math.min((y - 400) * 0.5, 100)}px` }} className="absolute left-1/2 -translate-x-1/2 conn w-full">
+        <div style={{ transform: `translateY(${Math.min((y - 400) * 0.5, 100)}px) translateX(-50%)` }} className="absolute left-1/2 top-0 conn w-full">
             <h2 className="mb-10 text-center text-xl poppins dark:text-white text-black">Looking for URL?</h2>
             <PlaceholdersAndVanishInput placeholders={placeholders} onChange={handleChange} onSubmit={onSubmit} />
         </div>

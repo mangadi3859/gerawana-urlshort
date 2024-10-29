@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Navbar } from "@/components/base/Navbar";
+import Footer from "@/components/base/Footer";
 
 export const metadata: Metadata = {
     title: "Gerawana | Short your link",
@@ -15,7 +17,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`antialiased dark`}>{children}</body>
+            <body className={`antialiased dark relative`}>
+                <Navbar />
+                {children}
+                <Footer />
+            </body>
         </html>
     );
 }
