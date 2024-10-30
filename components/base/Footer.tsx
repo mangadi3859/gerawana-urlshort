@@ -13,7 +13,7 @@ export default function Footer() {
                         <p className="mt-2 text-sm">Simplifying link sharing, one URL at a time. Join us to make your links short and memorable.</p>
                     </div>
 
-                    <div className="flex flex-col tablet:flex-row tablet:gap-[1rem] gap-[3rem]">
+                    <div className="flex flex-row tablet:gap-[1rem] gap-[3rem]">
                         <div className="flex flex-col gap-2 text-neutral-400">
                             <div className="font-bold text-foreground">Pages</div>
                             <Link href="/#hero" className="transition hover:text-primary">

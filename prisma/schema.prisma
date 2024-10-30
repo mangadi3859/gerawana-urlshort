@@ -15,9 +15,19 @@ datasource db {
 }
 
 model User {
-    id       Int     @id @default(autoincrement())
-    nama     String
+    id       Int    @id @default(autoincrement())
+    username String
     email    String
     password String
-    token    String?
+}
+
+model Session {
+    token      String   @id
+    expires_at DateTime @default(now())
+}
+
+model ShortLink {
+    id       Int    @id @default(autoincrement())
+    redirect String
+    link     String
 }

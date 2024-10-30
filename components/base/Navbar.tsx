@@ -10,7 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Menu, X } from "lucide-react";
 
-export function Navbar() {
+type Props = {
+    drawerStateHook: [boolean, (v: boolean) => any];
+};
+
+export function Navbar({ drawerStateHook }: Props) {
+    let [open, setOpen] = drawerStateHook;
+
     let navRef = useRef<HTMLDivElement>(null);
     let [navOpen, setNavOpen] = useState<boolean>(false);
 
@@ -22,9 +28,14 @@ export function Navbar() {
         setNavOpen(false);
     }
 
+    function handleDrawer() {
+        setOpen(!open);
+        closeSide();
+    }
+
     return (
         <>
-            <nav ref={navRef} className={`w-full poppins fixed z-[1000] transition bg-background/25 backdrop-blur-md`} id="navbar">
+            <nav ref={navRef} className={`w-full poppins fixed z-[100] transition bg-background/25 backdrop-blur-md`} id="navbar">
                 <div className="conn flex items-center justify-between py-4 ">
                     <Brand className="tablet:h-8 h-12" />
 
@@ -51,7 +62,7 @@ export function Navbar() {
                             </NavigationMenuList>
                         </NavigationMenu>
                         <Separator orientation="vertical" className="h-[2rem]" />
-                        <Button variant="outline" className="hover:bg-primary">
+                        <Button onClick={handleDrawer} variant="outline" className="hover:bg-primary">
                             Sign in
                         </Button>
                     </div>
@@ -62,7 +73,7 @@ export function Navbar() {
                 </div>
             </nav>
 
-            <aside className={cn(`fixed bg-zinc-950 z-[1000] transition p-4 w-full h-full top-0 left-0 flex flex-col gap-2`, !navOpen && "translate-x-full")}>
+            <aside className={cn(`fixed bg-zinc-950 z-[100] transition p-4 w-full h-full top-0 left-0 flex flex-col gap-2`, !navOpen && "translate-x-full")}>
                 <div className="flex justify-between w-full">
                     <Brand className="tablet:h-8 h-12" />
                     <button onClick={handleSidebarBtn} className="hidden phone:block text-2xl p-1 rounded-sm border">
@@ -89,7 +100,7 @@ export function Navbar() {
                 </div>
                 <Separator orientation="horizontal" className="mt-auto" />
                 <div className="flex justify-between w-full">
-                    <Button variant="outline" className="hover:bg-primary ml-auto">
+                    <Button onClick={handleDrawer} variant="outline" className="hover:bg-primary ml-auto">
                         Sign in
                     </Button>
                 </div>
