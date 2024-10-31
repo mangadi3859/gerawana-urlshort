@@ -1,3 +1,9 @@
-export default function Dashboard() {
-    return <h1>Hello World</h1>;
+import { isAuthenticated } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
+export default async function Dashboard() {
+    let isAuth = await isAuthenticated();
+
+    if (!isAuth) return redirect("/");
+    return redirect("/dashboard/overview");
 }

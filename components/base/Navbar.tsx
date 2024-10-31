@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import Link from "next/link";
 import { MouseEventHandler, useEffect, useRef, useState } from "react";
@@ -9,13 +8,20 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuLink, NavigationMe
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Menu, X } from "lucide-react";
+import { UserDB } from "@/lib/types";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
+import { LogOut } from "lucide-react";
 
 type Props = {
     drawerStateHook: [boolean, (v: boolean) => any];
+    isAuth: boolean;
+    user?: UserDB;
 };
 
-export function Navbar({ drawerStateHook }: Props) {
+export function Navbar({ drawerStateHook, isAuth, user }: Props) {
     let [open, setOpen] = drawerStateHook;
+    let [openPop, setOpenPop] = useState(false);
 
     let navRef = useRef<HTMLDivElement>(null);
     let [navOpen, setNavOpen] = useState<boolean>(false);
@@ -33,6 +39,10 @@ export function Navbar({ drawerStateHook }: Props) {
         closeSide();
     }
 
+    function handlePopover() {
+        setOpenPop(!openPop);
+    }
+
     return (
         <>
             <nav ref={navRef} className={`w-full poppins fixed z-[100] transition bg-background/25 backdrop-blur-md`} id="navbar">
@@ -42,6 +52,14 @@ export function Navbar({ drawerStateHook }: Props) {
                     <div className="flex items-center gap-2 phone:hidden">
                         <NavigationMenu>
                             <NavigationMenuList>
+                                {isAuth && (
+                                    <NavigationMenuItem>
+                                        <Link href="/dashboard" legacyBehavior passHref>
+                                            <Button variant="outline">Dashboard</Button>
+                                        </Link>
+                                    </NavigationMenuItem>
+                                )}
+
                                 <NavigationMenuItem>
                                     <Link href="/#hero" legacyBehavior passHref>
                                         <Button variant="outline">Home</Button>
@@ -62,9 +80,40 @@ export function Navbar({ drawerStateHook }: Props) {
                             </NavigationMenuList>
                         </NavigationMenu>
                         <Separator orientation="vertical" className="h-[2rem]" />
-                        <Button onClick={handleDrawer} variant="outline" className="hover:bg-primary">
-                            Sign in
-                        </Button>
+                        {isAuth ? (
+                            <Popover open={openPop} onOpenChange={setOpenPop}>
+                                <PopoverAnchor asChild>
+                                    <div onClick={handlePopover} className="grid place-items-center cursor-pointer">
+                                        <Avatar>
+                                            <AvatarFallback className="border-primary uppercase border">{user?.username.slice(0, 2)}</AvatarFallback>
+                                        </Avatar>
+                                    </div>
+                                </PopoverAnchor>
+                                <PopoverContent className="z-[110]">
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex gap-2 items-center">
+                                            <Avatar className="h-12 w-12">
+                                                <AvatarFallback className="border-primary uppercase border">{user?.username.slice(0, 2)}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex flex-col">
+                                                <h5 className="font-bold text-xl capitalize">{user?.username}</h5>
+                                                <p className="font-bold text-slate-500 text-sm">{user?.email}</p>
+                                            </div>
+                                        </div>
+                                        <Separator orientation="horizontal" />
+                                        <Link href="/api/logout">
+                                            <Button variant="secondary">
+                                                Logout <LogOut />
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        ) : (
+                            <Button onClick={handleDrawer} variant="outline" className="hover:bg-primary">
+                                Sign in
+                            </Button>
+                        )}
                     </div>
 
                     <button onClick={handleSidebarBtn} className="text-white hidden phone:block text-2xl p-1 rounded-sm border border-white">
@@ -82,6 +131,13 @@ export function Navbar({ drawerStateHook }: Props) {
                 </div>
                 <Separator orientation="horizontal" />
                 <div className="list-none m-0 p-0 flex flex-col gap-4 w-full">
+                    {isAuth && (
+                        <Link href="/dashboard" legacyBehavior passHref>
+                            <Button onClick={closeSide} variant="outline">
+                                Dasbhboard
+                            </Button>
+                        </Link>
+                    )}
                     <Link href="/#hero" legacyBehavior passHref>
                         <Button onClick={closeSide} variant="outline">
                             Home

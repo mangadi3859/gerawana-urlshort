@@ -1,11 +1,8 @@
-"use client";
-
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { FormRegister, FormLogin } from "./HomeForm";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 type Props = {
     drawerStateHook: [boolean, (v: boolean) => any];
@@ -14,8 +11,6 @@ type Props = {
 export default function LoginDrawer({ drawerStateHook }: Props) {
     let [open, setOpen] = drawerStateHook;
     let route = useRouter();
-
-    console.log(route);
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
@@ -32,10 +27,10 @@ export default function LoginDrawer({ drawerStateHook }: Props) {
                             <TabsTrigger value="register">Register</TabsTrigger>
                         </TabsList>
                         <TabsContent value="login">
-                            <FormLogin />
+                            <FormLogin setOpen={setOpen} />
                         </TabsContent>
                         <TabsContent value="register">
-                            <FormRegister />
+                            <FormRegister setOpen={setOpen} />
                         </TabsContent>
                     </Tabs>
 
