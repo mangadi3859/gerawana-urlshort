@@ -156,9 +156,17 @@ export function Navbar({ drawerStateHook, isAuth, user }: Props) {
                 </div>
                 <Separator orientation="horizontal" className="mt-auto" />
                 <div className="flex justify-between w-full">
-                    <Button onClick={handleDrawer} variant="outline" className="hover:bg-primary ml-auto">
-                        Sign in
-                    </Button>
+                    {isAuth ? (
+                        <Link href="/api/logout" className="ml-auto">
+                            <Button variant="outline" className="hover:bg-primary ml-auto">
+                                Logout <LogOut />
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Button onClick={handleDrawer} variant="outline" className="hover:bg-primary ml-auto">
+                            Sign in
+                        </Button>
+                    )}
                 </div>
             </aside>
         </>

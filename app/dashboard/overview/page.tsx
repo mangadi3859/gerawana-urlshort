@@ -3,8 +3,13 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import WrapperSidebar from "@/components/base/sidebar/SideWrapper";
+import { redirect } from "next/navigation";
+import { isAuthenticated } from "@/lib/auth";
 
-export default function Page() {
+export default async function Overview() {
+    let isAuth = await isAuthenticated();
+    if (!isAuth) return redirect("/");
+
     return (
         <SidebarProvider>
             <WrapperSidebar />
@@ -16,11 +21,11 @@ export default function Page() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
+                                    <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                    <BreadcrumbPage>Overview</BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>

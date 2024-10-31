@@ -1,11 +1,9 @@
 "use client";
 import * as React from "react";
-import { AudioWaveform, BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Map, PieChart, Settings2, SquareTerminal } from "lucide-react";
+import { FileSymlink, BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Map, PieChart, Settings2, SquareTerminal } from "lucide-react";
 
 import { NavMain } from "@/components/base/sidebar/nav-main";
-import { NavProjects } from "@/components/base/sidebar/nav-projects";
 import { NavUser } from "@/components/base/sidebar/nav-user";
-import { TeamSwitcher } from "@/components/base/sidebar/team-switcher";
 import SidebarHead from "./SidebarHead";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 
@@ -14,50 +12,27 @@ const data = {
     navMain: [
         {
             title: "Overview",
-            url: "#",
+            url: "/dashboard/overview",
             icon: SquareTerminal,
-            isActive: true,
             items: [],
         },
         {
-            title: "Models",
-            url: "#",
-            icon: Bot,
+            title: "Shortlink",
+            url: "/dashboard/shortlink",
+            isActive: true,
+            icon: FileSymlink,
             items: [
                 {
-                    title: "Genesis",
-                    url: "#",
+                    title: "Create Shortlink",
+                    url: "/dashboard/shortlink#create?open",
                 },
                 {
-                    title: "Explorer",
-                    url: "#",
+                    title: "Manage Shortlink",
+                    url: "/dashboard/shortlink#manage",
                 },
                 {
-                    title: "Quantum",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
-                },
-                {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
+                    title: "Generate QR Code",
+                    url: "/dashboard/shortlink#qr>qr",
                 },
             ],
         },
@@ -67,39 +42,20 @@ const data = {
             icon: Settings2,
             items: [
                 {
-                    title: "General",
-                    url: "#",
+                    title: "Profile",
+                    url: "/dashboard/settings/user",
                 },
                 {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
+                    title: "Coming soon...",
                     url: "#",
                 },
             ],
         },
-    ],
-    projects: [
         {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: PieChart,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Map,
+            title: "Documentation",
+            url: "https://github.com/mangadi3859/gerawana-urlshort/blob/main/README.md",
+            icon: BookOpen,
+            items: [],
         },
     ],
 };
@@ -119,7 +75,6 @@ export function AppSidebar({ isAuth, user, ...props }: React.ComponentProps<type
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={user} />

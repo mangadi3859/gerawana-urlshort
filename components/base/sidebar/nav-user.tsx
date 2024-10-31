@@ -1,10 +1,11 @@
 "use client";
 
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
+import { BadgeCheck, Bell, ChevronsUpDown, CalendarCog, CreditCard, LogOut, Sparkles, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavUser({
     user,
@@ -46,31 +47,26 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
-                            </DropdownMenuItem>
+                            <Link href="/dashboard/setting#profile">
+                                <DropdownMenuItem>
+                                    <User />
+                                    Profile
+                                </DropdownMenuItem>
+                            </Link>
                         </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <BadgeCheck />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCard />
-                                Billing
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Bell />
-                                Notifications
+                                <CalendarCog />
+                                Coming soon...
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <LogOut />
-                            Log out
-                        </DropdownMenuItem>
+                        <Link href="/api/logout">
+                            <DropdownMenuItem>
+                                <LogOut />
+                                Log out
+                            </DropdownMenuItem>
+                        </Link>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuItem>

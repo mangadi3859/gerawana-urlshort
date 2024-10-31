@@ -28,7 +28,7 @@ export async function getAuth() {
 
 export async function logout() {
     let auth = await getAuth();
-    if (auth) Prisma.session.delete({ where: { token: auth?.value } });
+    if (auth) await Prisma.session.delete({ where: { token: auth?.value } });
     (await cookies()).set("auth", "");
 }
 
