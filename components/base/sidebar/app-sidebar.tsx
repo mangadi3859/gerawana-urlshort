@@ -23,12 +23,12 @@ const data = {
             icon: FileSymlink,
             items: [
                 {
-                    title: "Create Shortlink",
-                    url: "/dashboard/shortlink#create?open",
-                },
-                {
                     title: "Manage Shortlink",
                     url: "/dashboard/shortlink#manage",
+                },
+                {
+                    title: "Create Shortlink",
+                    url: "/dashboard/shortlink#create?open",
                 },
                 {
                     title: "Generate QR Code",

@@ -84,16 +84,16 @@ export function Navbar({ drawerStateHook, isAuth, user }: Props) {
                             <Popover open={openPop} onOpenChange={setOpenPop}>
                                 <PopoverAnchor asChild>
                                     <div onClick={handlePopover} className="grid place-items-center cursor-pointer">
-                                        <Avatar>
-                                            <AvatarFallback className="border-primary uppercase border">{user?.username.slice(0, 2)}</AvatarFallback>
+                                        <Avatar className="rounded-md">
+                                            <AvatarFallback className="rounded-md uppercase">{user?.username.slice(0, 2)}</AvatarFallback>
                                         </Avatar>
                                     </div>
                                 </PopoverAnchor>
                                 <PopoverContent className="z-[110]">
                                     <div className="flex flex-col gap-4">
                                         <div className="flex gap-2 items-center">
-                                            <Avatar className="h-12 w-12">
-                                                <AvatarFallback className="border-primary uppercase border">{user?.username.slice(0, 2)}</AvatarFallback>
+                                            <Avatar className="h-12 rounded-md w-12">
+                                                <AvatarFallback className="rounded-md uppercase">{user?.username.slice(0, 2)}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex flex-col">
                                                 <h5 className="font-bold text-xl capitalize">{user?.username}</h5>
@@ -101,8 +101,8 @@ export function Navbar({ drawerStateHook, isAuth, user }: Props) {
                                             </div>
                                         </div>
                                         <Separator orientation="horizontal" />
-                                        <Link href="/api/logout">
-                                            <Button variant="secondary">
+                                        <Link href="/api/logout" className="outline-none border-none">
+                                            <Button variant="outline" className="outline-none">
                                                 Logout <LogOut />
                                             </Button>
                                         </Link>

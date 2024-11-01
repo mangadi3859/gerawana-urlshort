@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Footer from "@/components/base/Footer";
+import { metadata as mainMeta } from "@/app/layout";
 
 export const metadata: Metadata = {
+    ...mainMeta,
     title: "Gerawana | Dashboard",
     description: "Dashboard",
-    icons: ["images/brand-icon-gerawana.png"],
 };
 
 export default function RootLayout({

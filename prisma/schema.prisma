@@ -32,12 +32,12 @@ model Session {
 }
 
 model ShortLink {
-    id       String @id @default(uuid())
+    id       String  @id @default(uuid())
     redirect String
     link     String
-    click    Int    @default(0)
-    author   User   @relation(fields: [authorId], references: [id])
+    author   User    @relation(fields: [authorId], references: [id])
     authorId String
+    Visit    Visit[]
 
     @@unique([authorId, redirect])
 }
@@ -47,4 +47,11 @@ model ResetPassword {
     user       User     @relation(fields: [userId], references: [id])
     expires_at DateTime @default(now())
     userId     String   @unique
+}
+
+model Visit {
+    id          String    @id @default(uuid())
+    shortLink   ShortLink @relation(fields: [shortLinkId], references: [id])
+    shortLinkId String
+    visitedAt   DateTime  @default(now())
 }
