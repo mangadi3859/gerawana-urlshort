@@ -30,10 +30,6 @@ const data = {
                     title: "Create Shortlink",
                     url: "/dashboard/shortlink#create?open",
                 },
-                {
-                    title: "Generate QR Code",
-                    url: "/dashboard/shortlink#qr>qr",
-                },
             ],
         },
         {

@@ -215,7 +215,7 @@ export function FormLogin({ setOpen }: FormProps) {
                         />
                     </CardContent>
                     <CardFooter>
-                        <Button>Submit</Button>
+                        <Button disabled={disabled}>Submit</Button>
                     </CardFooter>
                 </Card>
             </form>

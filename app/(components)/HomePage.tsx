@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Vortex } from "@/components/ui/vortex";
@@ -17,6 +17,8 @@ import Footer from "@/components/base/Footer";
 import { Navbar } from "@/components/base/Navbar";
 import LoginDrawer from "@/components/base/LoginDrawer";
 import { UserDB } from "@/lib/types";
+import useUrl from "@/hooks/useUrl";
+import { useToast } from "@/hooks/use-toast";
 
 type Props = {
     isAuth: boolean;
@@ -25,6 +27,8 @@ type Props = {
 
 export default function HomePage({ isAuth, user }: Props) {
     let drawerStateHook = useState<boolean>(false);
+    let { toast } = useToast();
+    let url = useUrl();
 
     return (
         <>

@@ -35,7 +35,7 @@ async function getOverview(token: string): Promise<APIReturn<OverviewType>> {
         let data = await apiGET<OverviewType>("/api/short/overview", token);
         return data;
     } catch (err: any) {
-        console.log(err.toString());
+        console.log(err);
         return { status: "FAILED", message: "Client Error", data: [] };
     }
 }
@@ -74,7 +74,7 @@ export default async function Overview() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="text-2xl font-bold pt-0 p-4">
-                                <span>{data.data.length} links</span>
+                                <span>{data.data?.length} links</span>
                             </CardContent>
                         </Card>
 
@@ -104,14 +104,14 @@ export default async function Overview() {
                     </div>
 
                     <div className="flex gap-4 w-full overflow-hidden flex-wrap">
-                        <VisitChart data={dataOverview.data} />
+                        <VisitChart data={dataOverview.data as NonNullable<typeof dataOverview.data>} />
                         <Card className="bg-background min-w-[30rem] phone:min-w-0 phone:w-full">
                             <CardHeader>
                                 <CardTitle>Popular Links</CardTitle>
                                 <CardDescription>Your most well performing links</CardDescription>
                             </CardHeader>
                             <CardContent className="flex flex-col">
-                                <DataTableOverview data={data.data} />
+                                <DataTableOverview data={data.data?.slice(0, 4) as NonNullable<typeof data.data>} />
                             </CardContent>
                         </Card>
                     </div>

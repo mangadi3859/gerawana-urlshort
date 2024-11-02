@@ -3,7 +3,8 @@ import getBaseUrl from "./getBaseUrl";
 export type APIReturn<T> = {
     status: string;
     message?: string;
-    data: T;
+    data?: T;
+    type?: string;
 };
 
 export async function apiGET<T>(route: string, token: string): Promise<APIReturn<T>> {

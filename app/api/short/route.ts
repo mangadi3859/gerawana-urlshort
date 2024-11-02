@@ -1,8 +1,5 @@
-import { isAuthenticated } from "@/lib/auth";
 import { getAuthHeader, getUserFromToken } from "@/lib/getHeadToken";
 import Prisma from "@/lib/prisma";
-import { NextApiRequest } from "next";
-import { redirect } from "next/navigation";
 
 export async function GET(req: Request) {
     try {
@@ -23,7 +20,7 @@ export async function GET(req: Request) {
             },
         });
 
-        let res = shorts.map((e) => ({ ...e, click: visits.find((el) => el.shortLinkId == e.id)?._count._all ?? 0 }));
+        let res = shorts.map((e) => ({ ...e, createdAt: e.createdAt.getTime(), click: visits.find((el) => el.shortLinkId == e.id)?._count._all ?? 0 }));
         if (isSort) res = res.sort((a, b) => <number>b.click - <number>a.click);
         return new Response(JSON.stringify({ status: "OK", data: res }), { status: 200 });
     } catch (err: any) {

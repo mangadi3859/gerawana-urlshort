@@ -4,7 +4,7 @@ export default function useUrl() {
     let [url, setUrl] = useState<URL>();
 
     useEffect(() => {
-        if (window !== undefined) {
+        if (typeof window !== undefined) {
             setUrl(new URL(window.location.href));
         }
     }, []);

@@ -27,6 +27,7 @@ export async function GET(req: NextApiRequest) {
         // Query to get count of visits within the month
         const visitCount = await Prisma.visit.count({
             where: {
+                shortLink: { authorId: db.user.id },
                 visitedAt: {
                     gte: startOfMonth,
                     lt: endOfMonth,
