@@ -103,7 +103,7 @@ function useColumnDef(ev: (v: LinkType) => any, ev1: (v: LinkType) => any) {
                     </Button>
                 );
             },
-            cell: ({ row }) => <div className="capitalize flex items-center gap-4">{new Date(row.getValue("createdAt")).toDateString()}</div>,
+            cell: ({ row }) => <div className="capitalize flex items-center gap-4">{new Date(row.getValue("createdAt")).toLocaleString()}</div>,
         },
         {
             accessorKey: "link",
