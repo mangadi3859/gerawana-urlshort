@@ -23,27 +23,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { usePathname } from "next/navigation";
 import useUrl from "@/hooks/useUrl";
 
-const data: Link[] = [
-    {
-        id: "m5gr84i9",
-        name: "Test1",
-        link: "test1",
-        click: 57,
-    },
-    {
-        id: "m5gr84i9",
-        name: "Test3",
-        link: "test2",
-        click: 37,
-    },
-    {
-        id: "m5gr84i9",
-        name: "Test2",
-        link: "test2",
-        click: 17,
-    },
-];
-
 export type Link = {
     id: string;
     name: string;
@@ -126,13 +105,15 @@ function useColumnDef() {
     return columns;
 }
 
-export function DataTableOverview() {
+type Props = {
+    data: Link[];
+};
+export function DataTableOverview({ data }: Props) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
     let columns = useColumnDef();
-    let url = useUrl();
 
     const table = useReactTable({
         data,
@@ -213,7 +194,7 @@ export function DataTableOverview() {
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
+                <div className="flex-`1` text-sm text-muted-foreground">
                     {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
                 <div className="space-x-2">

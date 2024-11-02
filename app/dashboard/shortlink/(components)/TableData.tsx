@@ -13,7 +13,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown, Copy, MoreHorizontal, Pencil, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,38 +22,20 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { usePathname } from "next/navigation";
 import useUrl from "@/hooks/useUrl";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
-const data: Link[] = [
-    {
-        id: "m5gr84i9",
-        name: "Test1",
-        link: "test1",
-        click: 57,
-    },
-    {
-        id: "m5gr84i9",
-        name: "Test3",
-        link: "test2",
-        click: 37,
-    },
-    {
-        id: "m5gr84i9",
-        name: "Test2",
-        link: "test2",
-        click: 17,
-    },
-];
-
-export type Link = {
+export type LinkType = {
     id: string;
     name: string;
     link: string;
-    click: number;
+    redirect: string;
+    click: string;
 };
 
 function useColumnDef() {
     let url = useUrl();
-    const columns: ColumnDef<Link>[] = [
+    const columns: ColumnDef<LinkType>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -86,12 +68,31 @@ function useColumnDef() {
             cell: ({ row }) => {
                 return (
                     <div className="font-medium">
-                        https://{url?.hostname}/r/
-                        {row.getValue("link")}
+                        <Link
+                            className="underline"
+                            href={`https://${url?.hostname}/r/
+                            ${row.getValue("link")}`}
+                        >
+                            https://{url?.hostname}/r/
+                            {row.getValue("link")}
+                        </Link>
                     </div>
                 );
             },
         },
+
+        {
+            accessorKey: "redirect",
+            header: "Redirect",
+            cell: ({ row }) => {
+                return (
+                    <Link href={row.getValue("redirect")} className="font-medium underline max-w-[12rem] block overflow-hidden truncate">
+                        {row.getValue("redirect")}
+                    </Link>
+                );
+            },
+        },
+
         {
             accessorKey: "click",
             header: () => <div className="text-right">Total visited</div>,
@@ -115,7 +116,28 @@ function useColumnDef() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`https://${url?.hostname}/r/${link.link}`)}>Copy Link</DropdownMenuItem>
+                            <Separator orientation="horizontal" className="w-full my-2" />
+
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`https://${url?.hostname}/r/${link.link}`)}>
+                                <Button variant="secondary" className="w-full flex justify-start gap-2">
+                                    <Pencil />
+                                    Edit
+                                </Button>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`https://${url?.hostname}/r/${link.link}`)}>
+                                <Button variant="secondary" className="w-full flex justify-start gap-2">
+                                    <Copy />
+                                    Copy Link
+                                </Button>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`https://${url?.hostname}/r/${link.link}`)}>
+                                <Button variant="destructive" className="w-full flex justify-start gap-2">
+                                    <Trash />
+                                    Delete
+                                </Button>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
@@ -126,13 +148,15 @@ function useColumnDef() {
     return columns;
 }
 
-export function DataTableOverview() {
+type Props = {
+    data: LinkType[];
+};
+export function TableData({ data }: Props) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
     let columns = useColumnDef();
-    let url = useUrl();
 
     const table = useReactTable({
         data,

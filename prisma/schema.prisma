@@ -34,7 +34,8 @@ model Session {
 model ShortLink {
     id       String  @id @default(uuid())
     redirect String
-    link     String
+    name     String
+    link     String  @unique
     author   User    @relation(fields: [authorId], references: [id])
     authorId String
     Visit    Visit[]

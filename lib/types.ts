@@ -3,3 +3,5 @@ export type UserDB = {
     email: string;
     id: string;
 };
+
+export type UnPromisifiedReturn<T extends (...args: any) => any> = ReturnType<T> extends Promise<infer R> ? R : never;
