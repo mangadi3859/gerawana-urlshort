@@ -86,7 +86,7 @@ export function OTP({ setState, state, setOtpId }: Props) {
                                 </InputOTP>
                             </FormControl>
                             <FormDescription>
-                                Please enter the one-time password sent to your email. <br /> (Coming soon... Check console.log to get the OTP)
+                                Please enter the one-time password sent to your email. <br /> (If you didn't setup SMTP please Check console.log to get the OTP)
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
