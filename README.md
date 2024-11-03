@@ -40,6 +40,8 @@ MAIL_PASS=""
 -   [Documentation](#documentation)
     -   [Home Page](#home-page)
     -   [Dashboard Overview](#dashbord-overview)
+    -   [Dashboard Shortlink](#dashboard-shortlink)
+    -   [Using Shortlink](#using-shortlink)
 
 ## Accessible Routes
 
@@ -107,3 +109,25 @@ Everything onwards can only be accessed once someone logged in into an account.
 -   Name, Total visited, and createdAt can be used to sort the table.
 -   Action buttons provided for each row to `Edit`, `Delete`, and `Copy Link` the row
     ![shortlink](./_md/shortlink1.png)
+    ![shortlink2](./_md/shortlink2.png)
+
+-   Add new link
+-   You click `Add new link` button start adding more link to your dashboard. You will be prompted to input a `Absolute Url`.
+-   After that you will be get a new short link with random shortLink and Name that you can later change with `Edit` button action.
+    ![shortlink3](./_md/shortlink3.png)
+
+-   Multiples short links with the same redirect url is not allowed.
+    ![shortlink4](./_md/shortlink4.png)
+
+### Using Shortlink
+
+-   To start using shortlink you can copy the link from previous [section](#dashboard-shortlink)
+-   the link struture:
+
+    ```
+    https?://[host|localhost]:[port]/r/[link]   => http://localhost:3000/r/violin
+                        With Custom Domain      => https://islacomp.my.id/r/violin
+    ```
+
+-   If `link` didn't exist on the server, you will be redirected to `/` instead.
+-   Each visit will add one visited count to your link and will affect your stats on `Overview Page`
