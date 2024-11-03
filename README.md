@@ -5,7 +5,7 @@
 
 Author: **ISLA** (mangadi3859) (240040016)
 
-## :about: What is this?
+## What is this?
 
 This is a services based website to shortened a long link with just a few characters. We provide fully customize url with visit tracker.
 
@@ -32,16 +32,16 @@ MAIL_USER=""
 MAIL_PASS=""
 ```
 
-## :toc: Table of Contents
+## Table of Contents
 
--   [About](#about-what-is-this)
--   [Table of Contens](#toc-table-of-contents)
--   [Routes](#routes-accessible-routes)
--   [Documentation](#doc-documentation)
-    -   [Home Page](#home-home-page)
-    -   [Dashboard Overview](#overview-dashbord-overview)
+-   [About](#what-is-this)
+-   [Table of Contens](#table-of-contents)
+-   [Routes](#accessible-routes)
+-   [Documentation](#documentation)
+    -   [Home Page](#home-page)
+    -   [Dashboard Overview](#dashbord-overview)
 
-## :routes: Accessible Routes
+## Accessible Routes
 
 ```
 root
@@ -77,9 +77,9 @@ root
 
 ```
 
-## :doc: Documentation
+## Documentation
 
-### :home: Home Page
+### Home Page
 
 -   There are 4 main menus on the navbar with 5 for logged in person.
     ![home1](./_md/home1.png)
@@ -94,14 +94,14 @@ root
 -   Collapsable Frequently Asked Questions
     ![home5](./_md/home5.png)
 
-### :overview: Dashbord Overview
+### Dashbord Overview
 
 Everything onwards can only be accessed once someone logged in into an account.
 
 -   In this page you get an overview of how much links do you have and how it perfomed on the last 6 months with a bar graph.
     ![overview](./_md/overview1.png)
 
-### :shortlink: Dashboard Shortlink
+### Dashboard Shortlink
 
 -   Manage your link here.
 -   Name, Total visited, and createdAt can be used to sort the table.
