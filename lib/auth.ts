@@ -17,7 +17,7 @@ export async function register(user: { email: string; username: string; password
 export async function login(user: { username: string; password: string }) {
     let userData = await Prisma.user.findFirst({ where: { OR: [{ email: user.username }, { username: user.username }] } });
     if (!userData) return;
-    if (!verify(userData.password, user.password)) return;
+    if (!(await verify(userData.password, user.password))) return;
     await createSession(userData.id, EXPIRES);
     return userData;
 }

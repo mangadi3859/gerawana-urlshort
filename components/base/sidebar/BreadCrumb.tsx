@@ -19,7 +19,7 @@ export default function BreadCrumb({ navs }: Props) {
                                 {i > 0 && <BreadcrumbSeparator className="hidden md:block" />}
                                 {nav.href ? (
                                     <BreadcrumbItem className="hidden md:block">
-                                        <BreadcrumbLink href="#">{nav.title}</BreadcrumbLink>
+                                        <BreadcrumbLink href={nav.href}>{nav.title}</BreadcrumbLink>
                                     </BreadcrumbItem>
                                 ) : (
                                     <BreadcrumbItem>

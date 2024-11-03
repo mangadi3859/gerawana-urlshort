@@ -19,6 +19,7 @@ import LoginDrawer from "@/components/base/LoginDrawer";
 import { UserDB } from "@/lib/types";
 import useUrl from "@/hooks/useUrl";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
     isAuth: boolean;
@@ -28,7 +29,6 @@ type Props = {
 export default function HomePage({ isAuth, user }: Props) {
     let drawerStateHook = useState<boolean>(false);
     let { toast } = useToast();
-    let url = useUrl();
 
     return (
         <>
@@ -56,7 +56,7 @@ export default function HomePage({ isAuth, user }: Props) {
                 </header>
 
                 <section id="features" className="bg-grid-white/[.05] relative isolate">
-                    <SearchUrl />
+                    <SearchUrl drawerStateHook={drawerStateHook} />
                     <div className="conn pt-[20rem] flex tablet:flex-col-reverse justify-center items-start gap-[4rem]">
                         <div className="absolute z-[-1] pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_10%,hsl(var(--background))_55%)]"></div>
                         <div className="w-1/2 tablet:w-full flex flex-col gap-6">

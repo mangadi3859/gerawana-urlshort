@@ -48,12 +48,13 @@ model ResetPassword {
     id         String   @id @default(uuid())
     user       User     @relation(fields: [userId], references: [id])
     expires_at DateTime @default(now())
+    otp        String   @unique
     userId     String   @unique
 }
 
 model Visit {
     id          String    @id @default(uuid())
-    shortLink   ShortLink @relation(fields: [shortLinkId], references: [id])
+    shortLink   ShortLink @relation(fields: [shortLinkId], references: [id], onDelete: Cascade)
     shortLinkId String
     visitedAt   DateTime  @default(now())
 }

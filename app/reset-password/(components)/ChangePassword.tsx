@@ -1,6 +1,6 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { FormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -9,21 +9,26 @@ import { z as zod } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { DialogFooter } from "@/components/ui/dialog";
-import { LinkDB, UserDB } from "@/lib/types";
+import { LinkDB } from "@/lib/types";
 import type { APIReturn } from "@/lib/apiFetch";
 import { useRouter } from "next/navigation";
+import { State } from "./ResetPassword";
 
 type Props = {
-    setState: (v: boolean) => any;
-    token: string;
+    setState: (v: State) => any;
+    state: State;
+    otpId?: string;
 };
-export default function LinkForm({ setState, token }: Props) {
+export default function ChangePassword({ setState, state, otpId }: Props) {
     let { toast } = useToast();
     let [disabled, setDisabled] = useState(false);
     let router = useRouter();
 
     const formSchema = zod.object({
-        redirect: zod.string().url().trim().regex(/^\S+$/, { message: "White spaces is not allowed" }).min(5, {
+        password: zod.string().min(5, {
+            message: "Username must be at least 5 characters.",
+        }),
+        confirmPassword: zod.string().min(5, {
             message: "Username must be at least 5 characters.",
         }),
     });
@@ -31,7 +36,8 @@ export default function LinkForm({ setState, token }: Props) {
     const form = useForm<zod.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            redirect: "",
+            password: "",
+            confirmPassword: "",
         },
     });
 
@@ -39,24 +45,23 @@ export default function LinkForm({ setState, token }: Props) {
         try {
             setDisabled(true);
             toast({ title: "Form sent", description: "Form is being validated" });
-            let data = await fetch("/api/short/create", {
+
+            if (values.confirmPassword !== values.password) return form.setError("confirmPassword", { message: "Password mismatch" });
+            let data = await fetch("/api/reset-password/save", {
                 method: "POST",
-                body: JSON.stringify(values),
-                headers: {
-                    Authorization: token,
-                },
+                body: JSON.stringify({ ...values, otp: otpId }),
             });
+
             let api: APIReturn<any> = await data.json();
 
             if (api.status != "OK") {
-                form.setError("redirect", { message: api.message });
+                form.setError((api.type as any) ?? "password", { message: api.message });
                 toast({ title: "Failed", description: api.message });
                 return;
             }
 
-            setState(false);
-            router.refresh();
-            return toast({ title: "Add success", description: "Process completed" });
+            toast({ title: "Success", description: "Your password has been reseted" });
+            router.replace("/");
         } catch (err) {
             console.log(err);
             toast({ title: "Unexpected server error", description: "Something went wrong!" });
@@ -70,22 +75,35 @@ export default function LinkForm({ setState, token }: Props) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <FormField
                     control={form.control}
-                    name="redirect"
+                    name="password"
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Input required placeholder="URL" {...field} />
+                                <Input required type="password" placeholder="your password" {...field} />
                             </FormControl>
-                            <FormDescription>Enter the long url</FormDescription>
+                            <FormDescription>Enter your new passowrd</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <DialogFooter>
-                    <Button disabled={disabled} variant="secondary" type="submit">
-                        Add
-                    </Button>
-                </DialogFooter>
+
+                <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <Input required type="password" placeholder="confirm your password" {...field} />
+                            </FormControl>
+                            <FormDescription>Confirm new password</FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <Button disabled={disabled} variant="secondary" type="submit">
+                    Submit
+                </Button>
             </form>
         </Form>
     );

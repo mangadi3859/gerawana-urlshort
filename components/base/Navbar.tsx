@@ -96,13 +96,13 @@ export function Navbar({ drawerStateHook, isAuth, user }: Props) {
                                                 <AvatarFallback className="rounded-md uppercase">{user?.username.slice(0, 2)}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex flex-col">
-                                                <h5 className="font-bold text-xl capitalize">{user?.username}</h5>
-                                                <p className="font-bold text-slate-500 text-sm">{user?.email}</p>
+                                                <h5 className="font-bold text-lg capitalize">{user?.username}</h5>
+                                                <p className="font-bold text-slate-500 text-xs w-[10rem] overflow-hidden truncate">{user?.email}</p>
                                             </div>
                                         </div>
                                         <Separator orientation="horizontal" />
                                         <Link href="/api/logout" className="outline-none border-none">
-                                            <Button variant="outline" className="outline-none">
+                                            <Button variant="ghost" className="outline-none">
                                                 Logout <LogOut />
                                             </Button>
                                         </Link>

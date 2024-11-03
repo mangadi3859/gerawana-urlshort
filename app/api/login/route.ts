@@ -13,7 +13,8 @@ export async function POST(req: Request) {
         let user = await Prisma.user.findFirst({ where: { OR: [{ username }, { email: username }] } });
         if (!user) return new Response(JSON.stringify({ type: "username", status: "FAILED", message: "Username or password invalid" }), { status: 404 });
 
-        await login({ username, password });
+        let state = await login({ username, password });
+        if (!state) return new Response(JSON.stringify({ type: "password", status: "FAILED", message: "Username or password invalid" }), { status: 401 });
 
         return new Response(JSON.stringify({ status: "OK" }), { status: 200 });
     } catch (err: any) {

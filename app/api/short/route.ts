@@ -20,6 +20,7 @@ export async function GET(req: Request) {
             },
         });
 
+        // console.log(shorts);
         let res = shorts.map((e) => ({ ...e, createdAt: e.createdAt.getTime(), click: visits.find((el) => el.shortLinkId == e.id)?._count._all ?? 0 }));
         if (isSort) res = res.sort((a, b) => <number>b.click - <number>a.click);
         return new Response(JSON.stringify({ status: "OK", data: res }), { status: 200 });

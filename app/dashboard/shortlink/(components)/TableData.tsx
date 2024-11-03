@@ -33,6 +33,7 @@ import EditForm from "./EditForm";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { APIReturn } from "@/lib/apiFetch";
+import { useSidebar } from "@/components/ui/sidebar";
 
 export type LinkType = {
     id: string;
@@ -103,7 +104,7 @@ function useColumnDef(ev: (v: LinkType) => any, ev1: (v: LinkType) => any) {
                     </Button>
                 );
             },
-            cell: ({ row }) => <div className="capitalize flex items-center gap-4">{new Date(row.getValue("createdAt")).toLocaleString()}</div>,
+            cell: ({ row }) => <div className="capitalize flex items-center gap-4">{new Date(row.getValue("createdAt")).toString().split("GMT")[0]}</div>,
         },
         {
             accessorKey: "link",
@@ -111,7 +112,7 @@ function useColumnDef(ev: (v: LinkType) => any, ev1: (v: LinkType) => any) {
             cell: ({ row }) => {
                 return (
                     <div className="font-medium">
-                        <Link className="underline max-w-[12rem] block overflow-hidden truncate" href={`/r/${row.getValue("link")}`}>
+                        <Link className="underline max-w-[12rem] block overflow-hidden truncate" target="_blank" href={`/r/${row.getValue("link")}`}>
                             {row.getValue("link")}
                         </Link>
                     </div>
@@ -123,7 +124,7 @@ function useColumnDef(ev: (v: LinkType) => any, ev1: (v: LinkType) => any) {
             header: "Redirect",
             cell: ({ row }) => {
                 return (
-                    <Link href={row.getValue("redirect")} className="font-medium underline max-w-[12rem] block overflow-hidden truncate">
+                    <Link href={row.getValue("redirect")} target="_blank" className="font-medium underline max-w-[12rem] block overflow-hidden truncate">
                         {row.getValue("redirect")}
                     </Link>
                 );
@@ -170,14 +171,7 @@ function useColumnDef(ev: (v: LinkType) => any, ev1: (v: LinkType) => any) {
                                 </Button>
                             </DropdownMenuItem>
 
-                            <DropdownMenuItem
-                                onClick={() =>
-                                    navigator.clipboard.writeText(`${protocol}//
-                            ${url?.hostname}
-                            ${url?.hostname == "localhost" ? ":3000" : ""}/r/
-                            ${link.link}`)
-                                }
-                            >
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(`${protocol}//${url?.hostname}${url?.hostname == "localhost" ? ":3000" : ""}/r/${link.link}`)}>
                                 <Button variant="secondary" className="w-full flex justify-start gap-2">
                                     <Copy />
                                     Copy Link
@@ -332,8 +326,8 @@ export function TableData({ data, token }: Props) {
                 </DropdownMenu>
             </div>
             <div className="rounded-md border">
-                <ScrollArea className="w-full whitespace-nowrap">
-                    <Table className="overflow-hidden">
+                <ScrollArea className="tablet:w-dvw whitespace-nowrap">
+                    <Table className="w-full">
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>

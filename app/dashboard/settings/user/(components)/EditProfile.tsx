@@ -9,25 +9,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z as zod } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { DialogFooter } from "@/components/ui/dialog";
-import { LinkDB } from "@/lib/types";
+import { UserDB } from "@/lib/types";
 import type { APIReturn } from "@/lib/apiFetch";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 type Props = {
-    setState: (v: boolean) => any;
-    link?: LinkDB;
     token: string;
+    user: UserDB;
 };
-export default function LinkForm({ setState, token, link }: Props) {
+export default function EditProfile({ token, user }: Props) {
     let { toast } = useToast();
     let [disabled, setDisabled] = useState(false);
     let router = useRouter();
 
     const formSchema = zod.object({
-        name: zod.string().trim().min(5, { message: "Username must be at least 5 characters." }),
-        link: zod.string().trim().regex(/^\S+$/, { message: "White spaces is not allowed" }).min(5, { message: "Link must be at least 5 characters." }),
-        redirect: zod.string().url().trim().regex(/^\S+$/, { message: "White spaces is not allowed" }).min(5, {
+        email: zod.string().email(),
+        username: zod.string().trim().regex(/^\S+$/, { message: "White spaces is not allowed" }).min(5, {
             message: "Username must be at least 5 characters.",
         }),
     });
@@ -35,9 +34,8 @@ export default function LinkForm({ setState, token, link }: Props) {
     const form = useForm<zod.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            redirect: link?.redirect ?? "",
-            link: link?.link ?? "",
-            name: link?.name ?? "",
+            username: user.username ?? "",
+            email: user.email ?? "",
         },
     });
 
@@ -45,9 +43,10 @@ export default function LinkForm({ setState, token, link }: Props) {
         try {
             setDisabled(true);
             toast({ title: "Form sent", description: "Form is being validated" });
-            let data = await fetch("/api/short/edit", {
+
+            let data = await fetch("/api/settings/user/edit", {
                 method: "POST",
-                body: JSON.stringify({ ...values, id: link?.id ?? "" }),
+                body: JSON.stringify({ ...values }),
                 headers: {
                     Authorization: token,
                 },
@@ -61,8 +60,7 @@ export default function LinkForm({ setState, token, link }: Props) {
                 return;
             }
 
-            setState(false);
-            router.refresh();
+            router.replace("/dashboard");
             return toast({ title: "Edit success", description: "Process completed" });
         } catch (err) {
             console.log(err);
@@ -74,16 +72,22 @@ export default function LinkForm({ setState, token, link }: Props) {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <div className="flex flex-col gap-2">
+                <h1 className="text-2xl font-bold">Profile</h1>
+                <p className="text-gray-400">Edit your email and username here.</p>
+            </div>
+            <Separator orientation="horizontal" />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-[50rem]">
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="username"
                     render={({ field }) => (
                         <FormItem>
+                            <FormLabel>Username</FormLabel>
                             <FormControl>
-                                <Input required placeholder="Name" {...field} />
+                                <Input required placeholder="Username" {...field} />
                             </FormControl>
-                            <FormDescription>Your url name</FormDescription>
+                            <FormDescription>Your public display username</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -91,36 +95,30 @@ export default function LinkForm({ setState, token, link }: Props) {
 
                 <FormField
                     control={form.control}
-                    name="link"
+                    name="email"
                     render={({ field }) => (
                         <FormItem>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input required placeholder="URL" {...field} />
+                                <Input required placeholder="Email" {...field} />
                             </FormControl>
-                            <FormDescription>The shortened id</FormDescription>
+                            <FormDescription>Your email (you will be logged out if your email changes)</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                <FormField
-                    control={form.control}
-                    name="redirect"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <Input required placeholder="URL" {...field} />
-                            </FormControl>
-                            <FormDescription>The destination url</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <DialogFooter>
-                    <Button disabled={disabled} variant="secondary" type="submit">
-                        Save
+                <div className="flex gap-4 items-center">
+                    <Button disabled={disabled} variant="secondary" className="bg-white hover:bg-gray-400 text-black" type="submit">
+                        Update profile
                     </Button>
-                </DialogFooter>
+
+                    <Link href={`/reset-password?id=${user.id}`}>
+                        <Button disabled={disabled} variant="outline" className="">
+                            Reset Password
+                        </Button>
+                    </Link>
+                </div>
             </form>
         </Form>
     );

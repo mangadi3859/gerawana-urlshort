@@ -4,6 +4,7 @@ import { ChevronsUpDown, Plus, SidebarCloseIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import Brand from "../Brand";
+import Link from "next/link";
 
 export default function SidebarHead() {
     return (

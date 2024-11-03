@@ -1,6 +1,5 @@
 import { getAuthHeader, getUserFromToken } from "@/lib/getHeadToken";
 import Prisma from "@/lib/prisma";
-import { randomBytes } from "crypto";
 
 export async function POST(req: Request) {
     try {
