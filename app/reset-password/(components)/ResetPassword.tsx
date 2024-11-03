@@ -17,7 +17,7 @@ export default function ResetPassword() {
     let [otpId, setOtpId] = useState<string>();
 
     return (
-        <Card className="bg-background min-w-[30rem]">
+        <Card className="bg-background phone:min-w-0 phone:w-full min-w-[30rem] conn">
             <CardHeader>
                 <CardTitle>Password Reset</CardTitle>
                 <CardDescription>Reset your password</CardDescription>

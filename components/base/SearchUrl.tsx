@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { PlaceholdersAndVanishInput } from "../ui/placeholders-and-vanish-input";
 import { useState, useEffect } from "react";
 
-export default function SearchUrl({ drawerStateHook }: { drawerStateHook: [boolean, (v: any) => any] }) {
+export default function SearchUrl({ drawerStateHook, isAuth }: { drawerStateHook: [boolean, (v: any) => any]; isAuth: boolean }) {
     const placeholders = ["Enter URL", "https://s.gerawana.com/r/verycool"];
     let [y, setY] = useState(0);
     let [input, setInput] = useState("");
@@ -24,7 +24,7 @@ export default function SearchUrl({ drawerStateHook }: { drawerStateHook: [boole
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        drawerStateHook[1](true);
+        isAuth ? route.replace("/dashboard/shortlink") : drawerStateHook[1](true);
     };
     return (
         <div style={{ transform: `translateY(${Math.min((y - 400) * 0.5, 100)}px) translateX(-50%)` }} className="absolute left-1/2 top-0 conn w-full">

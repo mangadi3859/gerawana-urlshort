@@ -74,7 +74,7 @@ export async function createSession(id: string, expires: number) {
     let jwtToken = generateJwt(user);
     (await cookies()).set("auth", token, { expires: expires_at });
     (await cookies()).set("user", jwtToken, { expires: expires_at });
-    await Prisma.session.create({ data: { token, expires_at: new Date(Date.now() + EXPIRES), userId: id } });
+    await Prisma.session.create({ data: { token, expires_at: new Date(Date.now() + expires), userId: id } });
 }
 
 export async function hash(text: string) {

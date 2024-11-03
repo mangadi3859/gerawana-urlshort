@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+    <img src="public/images/brand-gerawana.png" width="60%" />
+    <h1>Gerawana Url Shortener</h1>
+</div>
 
-## Getting Started
+Author: **ISLA** (mangadi3859) (240040016)
 
-First, run the development server:
+## :about: What is this?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This is a services based website to shortened a long link with just a few characters. We provide fully customize url with visit tracker.
+
+## Want to run it yourself?
+
+You need a few pre-requisites to run this website.
+
+-   NodeJS
+-   PNPM or NPM
+-   MySQL Server (you can use other databases)
+-   SMTP Mailing service (this is optional but you won't be getting email for reset password OTP)
+-   Your own domain (this is related to SMTP)
+
+`.env` setup
+
+```yaml
+# MYSQL
+DATABASE_URL="mysql://user:@host:port/dbname"
+
+# https://mailtrap.io this is what i use
+MAIL_HOST=""
+MAIL_PORT=
+MAIL_USER=""
+MAIL_PASS=""
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## :toc: Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   [About](#about-what-is-this)
+-   [Table of Contens](#toc-table-of-contents)
+-   [Routes](#routes-accessible-routes)
+-   [Documentation](#doc-documentation)
+    -   [Home Page](#home-home-page)
+    -   [Dashboard Overview](#overview-dashbord-overview)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## :routes: Accessible Routes
 
-## Learn More
+```
+root
+├───/api
+│   ├───/login          :POST
+│   ├───/logout         :GET
+│   ├───/register       :POST
+│   ├───/reset-password
+│   │   ├───/new        :POST
+│   │   ├───/otp        :POST
+│   │   └───/save       :POST
+│   ├───/settings
+│   │   └───/user
+│   │       └───/edit   :POST
+│   └───/short
+│       ├───/create     :POST
+│       ├───/delete     :POST
+│       ├───/edit       :POST
+│       └───/overview   :GET
+│
+│
+├───/dashboard
+│   ├───/overview
+│   │
+│   ├───/settings
+│   │   └───/user
+│   │
+│   └───/shortlink
+│
+├───/r
+│   └───/[:id]
+└───/reset-password
 
-To learn more about Next.js, take a look at the following resources:
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## :doc: Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### :home: Home Page
 
-## Deploy on Vercel
+-   There are 4 main menus on the navbar with 5 for logged in person.
+    ![home1](./_md/home1.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   Form when you click it, will prompt you to logged in. otherwise will redirect you to `/dashboard/short`
+    ![home2](./_md/home2.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   Form login and register to start making some short urls
+    ![home3](./_md/home3.png)
+    ![home4](./_md/home4.png)
+
+-   Collapsable Frequently Asked Questions
+    ![home5](./_md/home5.png)
+
+### :overview: Dashbord Overview
+
+Everything onwards can only be accessed once someone logged in into an account.
+
+-   In this page you get an overview of how much links do you have and how it perfomed on the last 6 months with a bar graph.
+    ![overview](./_md/overview1.png)
+
+### :shortlink: Dashboard Shortlink
+
+-   Manage your link here.
+-   Name, Total visited, and createdAt can be used to sort the table.
+-   Action buttons provided for each row to `Edit`, `Delete`, and `Copy Link` the row
+    ![shortlink](./_md/shortlink1.png)

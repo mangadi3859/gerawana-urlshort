@@ -1,5 +1,3 @@
-import { NextApiRequest } from "next";
-import { redirect } from "next/navigation";
 import { login, isAuthenticated } from "@/lib/auth";
 import Prisma from "@/lib/prisma";
 

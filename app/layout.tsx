@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -16,7 +15,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`antialiased dark relative poppins`}>
+            <body className={`dark relative poppins`}>
                 {children}
                 <Toaster />
             </body>

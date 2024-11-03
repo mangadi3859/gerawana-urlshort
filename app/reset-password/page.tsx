@@ -1,6 +1,4 @@
-import { isAuthenticated, getUserFromCookie } from "@/lib/auth";
 import ResetPassword from "./(components)/ResetPassword";
-import { Navbar } from "@/components/base/Navbar";
 import Footer from "@/components/base/Footer";
 
 export default async function Home() {
